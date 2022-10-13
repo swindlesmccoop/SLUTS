@@ -1,0 +1,14 @@
+#!/bin/sh
+# Read all the module parameters on the system categorically (useful for grep input)
+
+cut -f 1 -d " " /proc/modules | while read -r module; do
+	echo "- Module: $module";
+	if [ -d "/sys/module/$module/parameters" ]; then
+		find "/sys/module/$module/parameters/" -type f | sed "s/.*///" | while read -r param; do
+			printf "Param: %s --> " "$param"
+			cat 2>/dev/null "/sys/module/$module/parameters/$param" || echo "(N/A, or needs root)"
+		done
+	else
+		echo "(No parameters found)"
+	fi; echo;
+done

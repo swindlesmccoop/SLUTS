@@ -1,0 +1,10 @@
+# Moves up [argument] directory levels
+up() {
+	local d=""
+	local limit="$1"
+
+	#defualt to limit of 1
+	if [ -z "$limit" ] || [ "$limit" -le 0 ]; then limit=1; fi
+	for ((i=1;i<=limit;i++)); do d="../$d"; done
+	if ! cd "$d"; then printf "Couldn't go up $limit dirs.\n"; fi
+}
