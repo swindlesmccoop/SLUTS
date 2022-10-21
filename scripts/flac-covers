@@ -1,0 +1,12 @@
+#!/bin/sh
+# Add cover to all flac files in directory
+
+[ -f cover.jpg ] && FORMAT=jpg
+[ -f cover.png ] && FORMAT=png
+[ "$FORMAT" = "" ] && printf "Error: no cover found in directory.\n" && exit 1
+
+for file in *.flac; do
+	printf "$file\n"
+	ffmpeg -loglevel fatal -i "$file" -i cover.jpg -map 0:a -map 1 -codec copy -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" -disposition:v attached_pic new_"$file"
+	mv new_"$file" "$file"
+done
