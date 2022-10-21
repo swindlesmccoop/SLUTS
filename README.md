@@ -1,5 +1,5 @@
 ## Rules
-- Bash or POSIX shell scripts, preferrably under 15 lines
+- Bash or POSIX shell scripts, preferrably under 15 lines (not including shebang, blank lines, or comments)
 - No shell aliases
 - Must use tabs, not spaces
 - Must include a short explanation at the top of the script as to its purpose
