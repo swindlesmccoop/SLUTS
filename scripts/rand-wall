@@ -1,0 +1,23 @@
+#!/bin/sh
+# Changes machine wallpaper to random image
+WALLDIR=$HOME/.local/share/wallpapers
+
+#uncomment if you want to use as cronjob
+#export DISPLAY=:0
+
+LC_ALL=C
+LANG=C
+
+screens=$(xrandr | awk '/\<connected\>/{ print $1}')
+
+date "+%a %d, %H:%M:%S" >> /tmp/wallscript;
+
+for i in $screens; do
+	screen=$(find $WALLDIR -type f |shuf -n1);
+	echo "wall $i : $screen" >> /tmp/wallscript;
+	arg+=(--output "$i" --stretch "$screen");
+done
+
+printf "\n" >> /tmp/wallscript;
+
+xwallpaper "${arg[@]}" &

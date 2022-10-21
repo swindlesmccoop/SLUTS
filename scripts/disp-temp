@@ -1,0 +1,24 @@
+#!/bin/sh
+# Higher or lower display temperature based on time
+
+# frequency intervals (target = 3000)
+# 0.5 ~ 3 min
+# 1 ~ 6 min
+
+# useful frequency values (target = 3000)
+# 2.5 ~ 15 min
+# 5 ~ 30 min
+# 9.9 ~ 1 hr
+
+target="$1"
+freq="$2"
+
+if ! expr "$target" : "^([1-9][0-9]{3}([0-9])?)$" >/dev/null; then exit 1; fi
+if ! expr "$freq" : "^([0-9](.[5-9])?+)$" >/dev/null; then exit 1; fi
+
+sct=6500
+while [ $sct -gt $target ]; do
+	sct $sct
+	sct=$((sct - 10))
+	sleep $freq
+done
