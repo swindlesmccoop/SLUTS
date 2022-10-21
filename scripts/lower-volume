@@ -1,0 +1,12 @@
+#!/bin/sh
+# Lower volume of audio files in directory
+
+volume=${1:-0.2}
+for file in *.mp3 *.wav *.flac; do
+	if ! test -f "$file"; then
+		continue
+	fi
+
+	output=${file%.*}.2.${file##*.}
+	ffmpeg -i "$file" -filter:a "volume=$volume" "$output"
+done
