@@ -1,0 +1,22 @@
+# - usage: swallow [prog]
+# - unmap current X window and restore it after background process returns
+# - i don't recommend using this for programs that draw no window because you
+#   will lose your terminal unless you pkill -9, I know mpv does this when
+#   playing audio.
+# - requires xdotool, baskerville/xdo has a tendency to silently fail when
+#   issuing window commands in rapid succession
+
+swallow() (
+	[ ! -z "$1" ] || exit 1
+	WINID="$(xdotool getactivewindow)" || exit 1
+
+	"$@" 2> /dev/null &
+	xdotool windowunmap "$WINID" && wait
+	xdotool windowmap "$WINID"
+)
+
+# automatically enable terminal swallowing for selected X applications
+for f in feh mpv; do
+	alias "$f"="swallow $f"
+done && unset f
+
