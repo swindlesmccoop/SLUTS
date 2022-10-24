@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 # return a stylized pathname for paths starting with $HOME
 # truncate long pathnames to last $PATH_WIDTH chars, set to 50 by default
